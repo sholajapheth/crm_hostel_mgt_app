@@ -13,7 +13,6 @@ export interface LoginRequest {
 
 // Response interfaces
 export interface AuthResponse {
-  token?: string;
   user?: {
     id: string;
     email: string;

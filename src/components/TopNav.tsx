@@ -3,12 +3,10 @@ import React from "react";
 import { LogOut, Bell, Menu } from "lucide-react";
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback } from "./ui/avatar";
+import { useAuth } from "@/lib/hooks/useAuth";
 
-interface TopNavProps {
-  onLogout: () => void;
-}
-
-export function TopNav({ onLogout }: TopNavProps) {
+export function TopNav() {
+  const { logout, user } = useAuth();
   const emitToggle = () => {
     // dispatch a custom event the sidebar listens to
     try {
@@ -58,16 +56,22 @@ export function TopNav({ onLogout }: TopNavProps) {
           {/* Admin Profile */}
           <div className="flex items-center gap-3 pl-4 border-l border-gray-200 hidden sm:flex">
             <div className="text-right">
-              <p className="text-sm text-gray-900">Admin User</p>
-              <p className="text-xs text-gray-500">admin@hostel.com</p>
+              <p className="text-sm text-gray-900">{user?.name || "Admin User"}</p>
+              <p className="text-xs text-gray-500">{user?.email || "admin@hostel.com"}</p>
             </div>
             <Avatar>
-              <AvatarFallback className="bg-blue-900 text-white">AU</AvatarFallback>
+              <AvatarFallback className="bg-blue-900 text-white">
+                {user?.name
+                  ?.split(" ")
+                  .map((n) => n[0])
+                  .join("")
+                  .toUpperCase() || "AU"}
+              </AvatarFallback>
             </Avatar>
           </div>
 
           {/* Logout */}
-          <Button variant="outline" size="sm" onClick={onLogout} className="gap-2">
+          <Button variant="outline" size="sm" onClick={logout} className="gap-2">
             <LogOut className="w-4 h-4" />
             Logout
           </Button>

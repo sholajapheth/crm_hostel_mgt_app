@@ -9,27 +9,23 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
-import { PageType } from "./DashboardLayout";
+import { NavLink } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 
-interface SidebarProps {
-  currentPage: PageType;
-  onNavigate: (page: PageType) => void;
-}
-
 interface NavItem {
-  id: PageType;
+  path: string;
   label: string;
   icon: React.ReactNode;
 }
 
-export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
+export function Sidebar() {
+  
   const navItems: NavItem[] = [
-    { id: "dashboard", label: "Dashboard", icon: <LayoutDashboard className="w-5 h-5" /> },
-    { id: "users", label: "Users", icon: <Users className="w-5 h-5" /> },
-    { id: "hostel-allocation", label: "Hostel Allocation", icon: <Home className="w-5 h-5" /> },
-    { id: "announcements", label: "Announcements", icon: <Megaphone className="w-5 h-5" /> },
-    { id: "settings", label: "Settings", icon: <Settings className="w-5 h-5" /> },
+    { path: "/dashboard", label: "Dashboard", icon: <LayoutDashboard className="w-5 h-5" /> },
+    { path: "/users", label: "Users", icon: <Users className="w-5 h-5" /> },
+    { path: "/hostel-allocation", label: "Hostel Allocation", icon: <Home className="w-5 h-5" /> },
+    { path: "/announcements", label: "Announcements", icon: <Megaphone className="w-5 h-5" /> },
+    { path: "/settings", label: "Settings", icon: <Settings className="w-5 h-5" /> },
   ];
 
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -95,19 +91,19 @@ export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
             <nav className="flex-1 p-4 overflow-auto">
               <ul className="space-y-1">
                 {navItems.map((item) => (
-                  <li key={item.id}>
-                    <button
-                      onClick={() => {
-                        onNavigate(item.id);
-                        closeMobile();
-                      }}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-left
-                        ${currentPage === item.id ? "bg-blue-50 text-blue-900" : "text-gray-700 hover:bg-gray-100"}
-                      `}
+                  <li key={item.path}>
+                    <NavLink
+                      to={item.path}
+                      onClick={closeMobile}
+                      className={({ isActive }) =>
+                        `w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-left ${
+                          isActive ? "bg-blue-50 text-blue-900" : "text-gray-700 hover:bg-gray-100"
+                        }`
+                      }
                     >
                       {item.icon}
                       <span>{item.label}</span>
-                    </button>
+                    </NavLink>
                   </li>
                 ))}
               </ul>
@@ -141,16 +137,18 @@ export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
         <nav className="flex-1 p-4 overflow-auto">
           <ul className="space-y-1">
             {navItems.map((item) => (
-              <li key={item.id}>
-                <button
-                  onClick={() => onNavigate(item.id)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-left
-                    ${currentPage === item.id ? "bg-blue-50 text-blue-900" : "text-gray-700 hover:bg-gray-100"}
-                  `}
+              <li key={item.path}>
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-left ${
+                      isActive ? "bg-blue-50 text-blue-900" : "text-gray-700 hover:bg-gray-100"
+                    }`
+                  }
                 >
                   {item.icon}
                   <span className={`${expanded ? "inline" : "hidden"} lg:inline`}>{item.label}</span>
-                </button>
+                </NavLink>
               </li>
             ))}
           </ul>

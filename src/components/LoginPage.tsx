@@ -1,23 +1,30 @@
-import { useState } from "react";
-import { Building2, Lock, Mail, ArrowRight } from "lucide-react";
+import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
+import { Building2, Lock, Mail, ArrowRight, Loader2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { useAuth } from "@/lib/hooks/useAuth";
 
-interface LoginPageProps {
-  onLogin: () => void;
-}
-
-export function LoginPage({ onLogin }: LoginPageProps) {
+export function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login, isLoading, isAuthenticated } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Redirect if already authenticated
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login attempt:", { email, password });
-    // Simulate successful login
-    onLogin();
+    try {
+      await login({ email, password });
+    } catch (error) {
+      // Error is handled by the mutation's onError callback
+      console.error("Login error:", error);
+    }
   };
 
   return (
@@ -99,9 +106,7 @@ export function LoginPage({ onLogin }: LoginPageProps) {
           {/* Login Form */}
           <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
             <div className="mb-8">
-              <h2 className="text-gray-900 text-2xl mb-2 text-red-300">
-                Welcome back
-              </h2>
+              <h2 className="text-gray-900 text-2xl mb-2">Welcome back</h2>
               <p className="text-gray-600">
                 Sign in to access your admin dashboard
               </p>
@@ -163,10 +168,20 @@ export function LoginPage({ onLogin }: LoginPageProps) {
               {/* Login Button */}
               <Button
                 type="submit"
-                className="w-full h-12 bg-blue-900 hover:bg-blue-800 text-white transition-colors group"
+                disabled={isLoading}
+                className="w-full h-12 bg-blue-900 hover:bg-blue-800 text-white transition-colors group disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Sign In
-                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 w-4 h-4 animate-spin" />
+                    Signing in...
+                  </>
+                ) : (
+                  <>
+                    Sign In
+                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
               </Button>
             </form>
 
