@@ -1,19 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { User, Lock, Shield, LogOut } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
+import { useAuth } from "@/lib/hooks/useAuth";
 
-interface SettingsPageProps {
-  onLogout: () => void;
-}
+export function SettingsPage() {
+  const { user, logout } = useAuth();
+  const [name, setName] = useState(user?.name || "");
+  const [email, setEmail] = useState(user?.email || "");
 
-export function SettingsPage({ onLogout }: SettingsPageProps) {
-  const [name, setName] = useState("Admin User");
-  const [email, setEmail] = useState("admin@hostel.com");
+  useEffect(() => {
+    if (user) {
+      setName(user.name);
+      setEmail(user.email);
+    }
+  }, [user]);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -191,7 +196,7 @@ export function SettingsPage({ onLogout }: SettingsPageProps) {
             You will be logged out of your admin account. Make sure to save any changes before logging out.
           </p>
           <Button
-            onClick={onLogout}
+            onClick={logout}
             variant="destructive"
             className="gap-2"
           >

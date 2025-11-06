@@ -76,3 +76,5 @@ vite.config.*.timestamp-*
 *.temp
 .cache
 
+
+/.cursor*
