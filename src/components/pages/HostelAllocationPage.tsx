@@ -8,7 +8,7 @@ import { Progress } from "../ui/progress";
 import { Badge } from "../ui/badge";
 import { Skeleton } from "../ui/skeleton";
 import { useApplicants } from "@/lib/api/adminUsers";
-import { useHostels } from "@/lib/api/hostels";
+import { useHostels, useManualAssignHostel } from "@/lib/api/hostels";
 import { useZones } from "@/lib/api/zones";
 import type { ApplicantFilters } from "@/lib/api/adminUsers";
 import { toast } from "sonner";
@@ -39,6 +39,8 @@ export function HostelAllocationPage() {
     isFetching: applicantsFetching,
   } = useApplicants(userFilters);
 
+  const manualAssignMutation = useManualAssignHostel();
+
   // Filter for unassigned users (client-side since API doesn't filter by hostelAssigned)
   const unassignedUsers = useMemo(() => {
     return allApplicants.filter((user) => !user.hostelAssigned);
@@ -62,7 +64,7 @@ export function HostelAllocationPage() {
     );
   };
 
-  const handleAssignHostel = () => {
+  const handleAssignHostel = async () => {
     if (selectedUsers.length === 0) {
       toast.error("Please select at least one user");
       return;
@@ -81,10 +83,19 @@ export function HostelAllocationPage() {
       }
     }
 
-    // TODO: Implement actual API call when endpoint is available
-    toast.info("Assignment functionality will be available when the API endpoint is ready");
-    // setSelectedUsers([]);
-    // setSelectedHostel(undefined);
+    try {
+      await manualAssignMutation.mutateAsync({
+        memberIds: selectedUsers,
+        hostelId: selectedHostel,
+      });
+      toast.success(
+        `Successfully assigned ${selectedUsers.length} user(s) to ${hostel?.name}`
+      );
+      setSelectedUsers([]);
+      setSelectedHostel(undefined);
+    } catch (error: any) {
+      toast.error(error.message || "Failed to assign users to hostel");
+    }
   };
 
   // Calculate zone capacity from applicants data
@@ -283,9 +294,15 @@ export function HostelAllocationPage() {
             <Button
               onClick={handleAssignHostel}
               className="w-full bg-blue-900 hover:bg-blue-800"
-              disabled={selectedUsers.length === 0 || !selectedHostel}
+              disabled={
+                selectedUsers.length === 0 ||
+                !selectedHostel ||
+                manualAssignMutation.isPending
+              }
             >
-              Assign Selected Users to Hostel
+              {manualAssignMutation.isPending
+                ? "Assigning..."
+                : "Assign Selected Users to Hostel"}
             </Button>
           </CardContent>
         </Card>
