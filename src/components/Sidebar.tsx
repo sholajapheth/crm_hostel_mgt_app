@@ -22,8 +22,9 @@ export function Sidebar() {
   
   const navItems: NavItem[] = [
     { path: "/dashboard", label: "Dashboard", icon: <LayoutDashboard className="w-5 h-5" /> },
-    { path: "/users", label: "Users", icon: <Users className="w-5 h-5" /> },
-    { path: "/hostel-allocation", label: "Hostel Allocation", icon: <Home className="w-5 h-5" /> },
+    { path: "/requests", label: "Requests", icon: <Users className="w-5 h-5" /> },
+    { path: "/hostels", label: "Hostels", icon: <Home className="w-5 h-5" /> },
+    { path: "/hostel-allocation", label: "Hostel Allocation", icon: <Building2 className="w-5 h-5" /> },
     { path: "/announcements", label: "Announcements", icon: <Megaphone className="w-5 h-5" /> },
     { path: "/settings", label: "Settings", icon: <Settings className="w-5 h-5" /> },
   ];

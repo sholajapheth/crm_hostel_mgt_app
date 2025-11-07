@@ -3,8 +3,10 @@ import { useAuthStore } from "../stores/authStore";
 
 export function createHttpClient() {
   const client = axios.create({
-    baseURL: "https://crm-registration-system.onrender.com",
-    headers: { "Content-Type": "application/json", credentials: "include" },
+    // baseURL: "https://crm-registration-system.onrender.com",
+    baseURL: "https://james-closing-speed-worthy.trycloudflare.com",
+    headers: { "Content-Type": "application/json" },
+    withCredentials: true,
   });
 
   client.interceptors.request.use((config) => {
@@ -30,16 +32,13 @@ export function createHttpClient() {
     (error) => {
       const status = error.response?.status;
 
-      // Handle 401/403 - unauthorized/forbidden
-      if (status === 401 || status === 403) {
-        // Clear auth state
-        useAuthStore.getState().clearAuth();
+      // if (status === 401 || status === 403) {
+      //   useAuthStore.getState().clearAuth();
 
-        // Only redirect if we're not already on the login page
-        if (window.location.pathname !== "/") {
-          window.location.href = "/";
-        }
-      }
+      //   if (typeof window !== "undefined" && window.location.pathname !== "/") {
+      //     window.location.href = "/";
+      //   }
+      // }
 
       console.error("HTTP Response Error:", {
         message: error.message,
