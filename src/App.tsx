@@ -4,7 +4,8 @@ import { LoginPage } from "./components/LoginPage";
 import { DashboardLayoutWrapper } from "./components/layouts/DashboardLayoutWrapper";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { DashboardPage } from "./components/pages/DashboardPage";
-import { UsersPage } from "./components/pages/UsersPage";
+import { RequestsPage } from "./components/pages/UsersPage";
+import { HostelsPage } from "./components/pages/HostelsPage";
 import { HostelAllocationPage } from "./components/pages/HostelAllocationPage";
 import { AnnouncementsPage } from "./components/pages/AnnouncementsPage";
 import { SettingsPage } from "./components/pages/SettingsPage";
@@ -34,7 +35,8 @@ function AppRoutes() {
         }
       >
         <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/users" element={<UsersPage />} />
+        <Route path="/requests" element={<RequestsPage />} />
+        <Route path="/hostels" element={<HostelsPage />} />
         <Route path="/hostel-allocation" element={<HostelAllocationPage />} />
         <Route path="/announcements" element={<AnnouncementsPage />} />
         <Route path="/settings" element={<SettingsPage />} />

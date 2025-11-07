@@ -8,8 +8,12 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { useAuth } from "@/lib/hooks/useAuth";
 
 export function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const isDev =
+    typeof import.meta !== "undefined" &&
+    import.meta.env &&
+    import.meta.env.MODE === "development";
+  const [email, setEmail] = useState(isDev ? "test@example.com" : "");
+  const [password, setPassword] = useState(isDev ? "passwordd123!" : "");
   const { login, isLoading, isAuthenticated } = useAuth();
 
   // Redirect if already authenticated
