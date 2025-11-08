@@ -88,8 +88,8 @@ export const useManualAssignHostel = () => {
   return useMutation<void, Error, ManualAssignHostelRequest>({
     mutationFn: async (data: ManualAssignHostelRequest) => {
       await httpClient.post("/api/v3/admin/hostels/manual-assign", {
-        memberIds: data.memberIds.map(String),
-        hostelId: String(data.hostelId),
+        memberIds: data.memberIds,
+        hostelId: data.hostelId,
       });
     },
     onSuccess: () => {
