@@ -1,5 +1,6 @@
 export interface Applicant {
   id: number;
+  memberId: number;
   name: string;
   gender: string;
   email: string;

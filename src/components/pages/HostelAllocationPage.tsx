@@ -2,7 +2,13 @@ import { useMemo, useState } from "react";
 import { UserCheck, Building } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 import { Checkbox } from "../ui/checkbox";
 import { Progress } from "../ui/progress";
 import { Badge } from "../ui/badge";
@@ -17,7 +23,9 @@ export function HostelAllocationPage() {
   const [genderFilter, setGenderFilter] = useState<string>("all");
   const [zoneId, setZoneId] = useState<number | undefined>(undefined);
   const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
-  const [selectedHostel, setSelectedHostel] = useState<number | undefined>(undefined);
+  const [selectedHostel, setSelectedHostel] = useState<number | undefined>(
+    undefined
+  );
 
   const { data: zones = [] } = useZones();
   const { data: hostels = [], isFetching: hostelsFetching } = useHostels();
@@ -34,10 +42,8 @@ export function HostelAllocationPage() {
     return filter;
   }, [genderFilter, zoneId]);
 
-  const {
-    data: allApplicants = [],
-    isFetching: applicantsFetching,
-  } = useApplicants(userFilters);
+  const { data: allApplicants = [], isFetching: applicantsFetching } =
+    useApplicants(userFilters);
 
   const manualAssignMutation = useManualAssignHostel();
 
@@ -60,7 +66,9 @@ export function HostelAllocationPage() {
 
   const handleUserToggle = (userId: number) => {
     setSelectedUsers((prev) =>
-      prev.includes(userId) ? prev.filter((id) => id !== userId) : [...prev, userId]
+      prev.includes(userId)
+        ? prev.filter((id) => id !== userId)
+        : [...prev, userId]
     );
   };
 
@@ -78,7 +86,9 @@ export function HostelAllocationPage() {
     if (hostel) {
       const availableSpace = hostel.remainingCapacity;
       if (selectedUsers.length > availableSpace) {
-        toast.error(`Not enough space. Only ${availableSpace} spots available.`);
+        toast.error(
+          `Not enough space. Only ${availableSpace} spots available.`
+        );
         return;
       }
     }
@@ -108,7 +118,9 @@ export function HostelAllocationPage() {
     <div className="p-8">
       <div className="mb-8">
         <h1 className="text-2xl text-gray-900 mb-2">Hostel Allocation</h1>
-        <p className="text-gray-600">Assign participants to available hostels</p>
+        <p className="text-gray-600">
+          Assign participants to available hostels
+        </p>
       </div>
 
       {/* Zone Capacity Overview */}
@@ -137,7 +149,9 @@ export function HostelAllocationPage() {
                       </span>
                     </div>
                     <Progress value={percentage} className="h-2" />
-                    <p className="text-xs text-gray-500 mt-1">{percentage.toFixed(1)}% filled</p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {percentage.toFixed(1)}% filled
+                    </p>
                   </div>
                 );
               })}
@@ -156,8 +170,8 @@ export function HostelAllocationPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Genders</SelectItem>
-                <SelectItem value="Male">Male</SelectItem>
-                <SelectItem value="Female">Female</SelectItem>
+                <SelectItem value="male">Male</SelectItem>
+                <SelectItem value="female">Female</SelectItem>
               </SelectContent>
             </Select>
 
@@ -212,13 +226,14 @@ export function HostelAllocationPage() {
                       className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
                     >
                       <Checkbox
-                        checked={selectedUsers.includes(user.id)}
-                        onCheckedChange={() => handleUserToggle(user.id)}
+                        checked={selectedUsers.includes(user.memberId)}
+                        onCheckedChange={() => handleUserToggle(user.memberId)}
                       />
                       <div className="flex-1">
                         <p className="text-sm text-gray-900">{user.name}</p>
                         <p className="text-xs text-gray-600">
-                          {user.gender} • {user.zone || "—"} • {user.state || "—"}
+                          {user.gender} • {user.zone || "—"} •{" "}
+                          {user.state || "—"}
                         </p>
                       </div>
                     </div>
@@ -261,7 +276,10 @@ export function HostelAllocationPage() {
                   filteredHostels.map((hostel) => {
                     const available = hostel.remainingCapacity;
                     const occupied = hostel.capacity - hostel.remainingCapacity;
-                    const percentage = hostel.capacity > 0 ? (occupied / hostel.capacity) * 100 : 0;
+                    const percentage =
+                      hostel.capacity > 0
+                        ? (occupied / hostel.capacity) * 100
+                        : 0;
                     return (
                       <div
                         key={hostel.id}
@@ -283,7 +301,8 @@ export function HostelAllocationPage() {
                         </p>
                         <Progress value={percentage} className="h-2 mb-1" />
                         <p className="text-xs text-gray-500">
-                          {occupied}/{hostel.capacity} occupied ({percentage.toFixed(0)}%)
+                          {occupied}/{hostel.capacity} occupied (
+                          {percentage.toFixed(0)}%)
                         </p>
                       </div>
                     );
