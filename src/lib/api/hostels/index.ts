@@ -4,6 +4,7 @@ export type {
   UpdateHostelRequest,
   AssignHostelRequest,
   AssignAllHostelsResponse,
+  ManualAssignHostelRequest,
 } from "./interface";
 
 export { httpClient } from "./httpClient";
@@ -20,4 +21,5 @@ export {
   useDeleteHostel,
   useAssignHostel,
   useAssignAllHostels,
+  useManualAssignHostel,
 } from "./mutations";

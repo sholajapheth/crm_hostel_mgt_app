@@ -5,6 +5,7 @@ import {
   AssignHostelRequest,
   CreateHostelRequest,
   Hostel,
+  ManualAssignHostelRequest,
   UpdateHostelRequest,
 } from "./interface";
 import { hostelKeys } from "./queries";
@@ -77,6 +78,25 @@ export const useAssignAllHostels = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: hostelKeys.lists() });
+    },
+  });
+};
+
+export const useManualAssignHostel = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<void, Error, ManualAssignHostelRequest>({
+    mutationFn: async (data: ManualAssignHostelRequest) => {
+      await httpClient.post("/api/v3/admin/hostels/manual-assign", {
+        memberIds: data.memberIds.map(String),
+        hostelId: String(data.hostelId),
+      });
+    },
+    onSuccess: () => {
+      // Invalidate hostels to refresh capacity
+      queryClient.invalidateQueries({ queryKey: hostelKeys.lists() });
+      // Invalidate applicants to refresh assignment status
+      queryClient.invalidateQueries({ queryKey: ["admin", "applicants"] });
     },
   });
 };

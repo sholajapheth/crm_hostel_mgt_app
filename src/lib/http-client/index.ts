@@ -1,10 +1,10 @@
 import axios from "axios";
-import { useAuthStore } from "../stores/authStore";
+
+const apiUrl = import.meta.env.VITE_API_URL;
 
 export function createHttpClient() {
   const client = axios.create({
-    // baseURL: "https://crm-registration-system.onrender.com",
-    baseURL: "https://james-closing-speed-worthy.trycloudflare.com",
+    baseURL: apiUrl,
     headers: { "Content-Type": "application/json" },
     withCredentials: true,
   });

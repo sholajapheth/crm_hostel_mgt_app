@@ -27,3 +27,8 @@ export interface AssignAllHostelsResponse {
   assignedCount: number;
   unassignedCount: number;
 }
+
+export interface ManualAssignHostelRequest {
+  memberIds: number[];
+  hostelId: number;
+}
