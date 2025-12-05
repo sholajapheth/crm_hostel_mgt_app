@@ -13,7 +13,7 @@ export const useZones = () => {
   return useQuery<Zone[], Error>({
     queryKey: zoneKeys.lists(),
     queryFn: async () => {
-      const response = await httpClient.get<Zone[]>("/api/v3/admin/zones/");
+      const response = await httpClient.get<Zone[]>("/api/v2/crm/admin/zones/");
       return response.data;
     },
   });
@@ -24,7 +24,9 @@ export const useZone = (id: number, enabled = true) => {
     queryKey: zoneKeys.detail(id),
     enabled: enabled && Boolean(id),
     queryFn: async () => {
-      const response = await httpClient.get<Zone>(`/api/v3/admin/zones/${id}`);
+      const response = await httpClient.get<Zone>(
+        `/api/v2/crm/admin/zones/${id}`
+      );
       return response.data;
     },
   });

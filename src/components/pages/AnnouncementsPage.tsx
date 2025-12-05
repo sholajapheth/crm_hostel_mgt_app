@@ -5,7 +5,13 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
 import { Skeleton } from "../ui/skeleton";
 import {
   useAnnouncements,
@@ -13,22 +19,22 @@ import {
   useUpdateAnnouncement,
   useDeleteAnnouncement,
 } from "@/lib/api/annoucements";
-import type { Announcement, CreateAnnouncementRequest } from "@/lib/api/annoucements";
+import type {
+  Announcement,
+  CreateAnnouncementRequest,
+} from "@/lib/api/annoucements";
 import { toast } from "sonner";
 
 export function AnnouncementsPage() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [editingAnnouncement, setEditingAnnouncement] = useState<Announcement | null>(null);
+  const [editingAnnouncement, setEditingAnnouncement] =
+    useState<Announcement | null>(null);
   const [formState, setFormState] = useState<CreateAnnouncementRequest>({
     title: "",
     message: "",
   });
 
-  const {
-    data: announcements = [],
-    isFetching,
-    error,
-  } = useAnnouncements();
+  const { data: announcements = [], isFetching, error } = useAnnouncements();
 
   const createMutation = useCreateAnnouncement();
   const updateMutation = useUpdateAnnouncement();
@@ -101,7 +107,9 @@ export function AnnouncementsPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl text-gray-900 mb-2">Announcements</h1>
-          <p className="text-gray-600">Create and manage announcements for participants</p>
+          <p className="text-gray-600">
+            Create and manage announcements for participants
+          </p>
         </div>
         <Dialog open={isCreateDialogOpen} onOpenChange={handleDialogClose}>
           <DialogTrigger asChild>
@@ -113,7 +121,9 @@ export function AnnouncementsPage() {
           <DialogContent className="sm:max-w-[600px]">
             <DialogHeader>
               <DialogTitle>
-                {editingAnnouncement ? "Edit Announcement" : "Create New Announcement"}
+                {editingAnnouncement
+                  ? "Edit Announcement"
+                  : "Create New Announcement"}
               </DialogTitle>
             </DialogHeader>
             <div className="space-y-4 py-4">
@@ -123,7 +133,9 @@ export function AnnouncementsPage() {
                   id="title"
                   placeholder="Enter announcement title"
                   value={formState.title}
-                  onChange={(e) => setFormState((prev) => ({ ...prev, title: e.target.value }))}
+                  onChange={(e) =>
+                    setFormState((prev) => ({ ...prev, title: e.target.value }))
+                  }
                 />
               </div>
               <div className="space-y-2">
@@ -132,7 +144,12 @@ export function AnnouncementsPage() {
                   id="message"
                   placeholder="Enter announcement message"
                   value={formState.message}
-                  onChange={(e) => setFormState((prev) => ({ ...prev, message: e.target.value }))}
+                  onChange={(e) =>
+                    setFormState((prev) => ({
+                      ...prev,
+                      message: e.target.value,
+                    }))
+                  }
                   rows={6}
                 />
               </div>
@@ -162,7 +179,9 @@ export function AnnouncementsPage() {
                 className="bg-blue-900 hover:bg-blue-800"
                 disabled={createMutation.isPending || updateMutation.isPending}
               >
-                {editingAnnouncement ? "Update Announcement" : "Create Announcement"}
+                {editingAnnouncement
+                  ? "Update Announcement"
+                  : "Create Announcement"}
               </Button>
             </div>
           </DialogContent>
@@ -178,9 +197,9 @@ export function AnnouncementsPage() {
             </p>
           </CardContent>
         </Card>
-      ) : isFetching && announcements.length === 0 ? (
+      ) : isFetching && announcements?.length === 0 ? (
         <div className="space-y-4">
-          {[...Array(3)].map((_, index) => (
+          {[...Array(3)]?.map((_, index) => (
             <Card key={index}>
               <CardHeader>
                 <Skeleton className="h-6 w-48 mb-2" />
@@ -193,7 +212,7 @@ export function AnnouncementsPage() {
             </Card>
           ))}
         </div>
-      ) : announcements.length === 0 ? (
+      ) : announcements?.length === 0 ? (
         <Card>
           <CardContent className="py-12 text-center">
             <p className="text-gray-500 mb-4">No announcements yet</p>
@@ -209,20 +228,25 @@ export function AnnouncementsPage() {
         </Card>
       ) : (
         <div className="space-y-4">
-          {announcements.map((announcement) => (
+          {announcements?.map((announcement) => (
             <Card key={announcement.id}>
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <CardTitle className="text-lg mb-2">{announcement.title}</CardTitle>
+                    <CardTitle className="text-lg mb-2">
+                      {announcement.title}
+                    </CardTitle>
                     <div className="flex items-center gap-4 text-sm text-gray-500">
                       <div className="flex items-center gap-1">
                         <Calendar className="w-4 h-4" />
-                        {new Date(announcement.createdAt).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        })}
+                        {new Date(announcement.createdAt).toLocaleDateString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          }
+                        )}
                       </div>
                       <div>By {announcement.createdBy}</div>
                     </div>
@@ -248,7 +272,9 @@ export function AnnouncementsPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-700 whitespace-pre-wrap">{announcement.message}</p>
+                <p className="text-gray-700 whitespace-pre-wrap">
+                  {announcement.message}
+                </p>
               </CardContent>
             </Card>
           ))}

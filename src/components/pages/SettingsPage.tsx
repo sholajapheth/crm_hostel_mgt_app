@@ -41,7 +41,7 @@ export function SettingsPage() {
       toast.error("New passwords do not match");
       return;
     }
-    if (newPassword.length < 8) {
+    if (newPassword?.length < 8) {
       toast.error("Password must be at least 8 characters");
       return;
     }
@@ -64,7 +64,9 @@ export function SettingsPage() {
     <div className="p-8 max-w-4xl">
       <div className="mb-8">
         <h1 className="text-2xl text-gray-900 mb-2">Settings</h1>
-        <p className="text-gray-600">Manage your account and system preferences</p>
+        <p className="text-gray-600">
+          Manage your account and system preferences
+        </p>
       </div>
 
       {/* Admin Profile */}
@@ -193,13 +195,10 @@ export function SettingsPage() {
         </CardHeader>
         <CardContent>
           <p className="text-gray-600 mb-4">
-            You will be logged out of your admin account. Make sure to save any changes before logging out.
+            You will be logged out of your admin account. Make sure to save any
+            changes before logging out.
           </p>
-          <Button
-            onClick={logout}
-            variant="destructive"
-            className="gap-2"
-          >
+          <Button onClick={logout} variant="destructive" className="gap-2">
             <LogOut className="w-4 h-4" />
             Logout from Admin Account
           </Button>

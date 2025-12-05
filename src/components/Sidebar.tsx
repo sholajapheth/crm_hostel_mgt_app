@@ -8,6 +8,8 @@ import {
   X,
   ChevronsLeft,
   ChevronsRight,
+  Calendar,
+  ClipboardList,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import React, { useState, useEffect } from "react";
@@ -19,14 +21,43 @@ interface NavItem {
 }
 
 export function Sidebar() {
-  
   const navItems: NavItem[] = [
-    { path: "/dashboard", label: "Dashboard", icon: <LayoutDashboard className="w-5 h-5" /> },
-    { path: "/requests", label: "Requests", icon: <Users className="w-5 h-5" /> },
+    {
+      path: "/dashboard",
+      label: "Dashboard",
+      icon: <LayoutDashboard className="w-5 h-5" />,
+    },
+    {
+      path: "/requests",
+      label: "Requests",
+      icon: <Users className="w-5 h-5" />,
+    },
     { path: "/hostels", label: "Hostels", icon: <Home className="w-5 h-5" /> },
-    { path: "/hostel-allocation", label: "Hostel Allocation", icon: <Building2 className="w-5 h-5" /> },
-    { path: "/announcements", label: "Announcements", icon: <Megaphone className="w-5 h-5" /> },
-    { path: "/settings", label: "Settings", icon: <Settings className="w-5 h-5" /> },
+    {
+      path: "/hostel-allocation",
+      label: "Hostel Allocation",
+      icon: <Building2 className="w-5 h-5" />,
+    },
+    {
+      path: "/programs",
+      label: "Programs",
+      icon: <Calendar className="w-5 h-5" />,
+    },
+    {
+      path: "/registrations",
+      label: "Registrations",
+      icon: <ClipboardList className="w-5 h-5" />,
+    },
+    {
+      path: "/announcements",
+      label: "Announcements",
+      icon: <Megaphone className="w-5 h-5" />,
+    },
+    {
+      path: "/settings",
+      label: "Settings",
+      icon: <Settings className="w-5 h-5" />,
+    },
   ];
 
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -37,12 +68,18 @@ export function Sidebar() {
   useEffect(() => {
     const handler = () => setMobileOpen((v) => !v);
 
-    if (typeof window !== "undefined" && typeof window.addEventListener === "function") {
+    if (
+      typeof window !== "undefined" &&
+      typeof window.addEventListener === "function"
+    ) {
       window.addEventListener("toggle-sidebar", handler as EventListener);
     }
 
     return () => {
-      if (typeof window !== "undefined" && typeof window.removeEventListener === "function") {
+      if (
+        typeof window !== "undefined" &&
+        typeof window.removeEventListener === "function"
+      ) {
         window.removeEventListener("toggle-sidebar", handler as EventListener);
       }
     };
@@ -74,7 +111,9 @@ export function Sidebar() {
                   <Building2 className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-sm font-semibold text-gray-900">Hostel Manager</h1>
+                  <h1 className="text-sm font-semibold text-gray-900">
+                    Hostel Manager
+                  </h1>
                   <p className="text-xs text-gray-500">Leadership Program</p>
                 </div>
               </div>
@@ -91,14 +130,16 @@ export function Sidebar() {
             {/* Drawer nav */}
             <nav className="flex-1 p-4 overflow-auto">
               <ul className="space-y-1">
-                {navItems.map((item) => (
+                {navItems?.map((item) => (
                   <li key={item.path}>
                     <NavLink
                       to={item.path}
                       onClick={closeMobile}
                       className={({ isActive }) =>
                         `w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-left ${
-                          isActive ? "bg-blue-50 text-blue-900" : "text-gray-700 hover:bg-gray-100"
+                          isActive
+                            ? "bg-blue-50 text-blue-900"
+                            : "text-gray-700 hover:bg-gray-100"
                         }`
                       }
                     >
@@ -114,7 +155,10 @@ export function Sidebar() {
             <div className="p-4 border-t border-gray-200">
               <div className="bg-blue-50 rounded-lg p-4">
                 <p className="text-xs text-gray-600 mb-1">Need assistance?</p>
-                <a href="#" className="text-sm text-blue-900 hover:text-blue-700">
+                <a
+                  href="#"
+                  className="text-sm text-blue-900 hover:text-blue-700"
+                >
                   Contact Support
                 </a>
               </div>
@@ -137,18 +181,24 @@ export function Sidebar() {
         {/* Navigation */}
         <nav className="flex-1 p-4 overflow-auto">
           <ul className="space-y-1">
-            {navItems.map((item) => (
+            {navItems?.map((item) => (
               <li key={item.path}>
                 <NavLink
                   to={item.path}
                   className={({ isActive }) =>
                     `w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-left ${
-                      isActive ? "bg-blue-50 text-blue-900" : "text-gray-700 hover:bg-gray-100"
+                      isActive
+                        ? "bg-blue-50 text-blue-900"
+                        : "text-gray-700 hover:bg-gray-100"
                     }`
                   }
                 >
                   {item.icon}
-                  <span className={`${expanded ? "inline" : "hidden"} lg:inline`}>{item.label}</span>
+                  <span
+                    className={`${expanded ? "inline" : "hidden"} lg:inline`}
+                  >
+                    {item.label}
+                  </span>
                 </NavLink>
               </li>
             ))}
@@ -172,7 +222,11 @@ export function Sidebar() {
           </div>
         </div>
 
-        <div className={`p-4 border-t border-gray-200 ${expanded ? "block" : "hidden lg:block"}`}>
+        <div
+          className={`p-4 border-t border-gray-200 ${
+            expanded ? "block" : "hidden lg:block"
+          }`}
+        >
           <div className="bg-blue-50 rounded-lg p-4 text-center">
             <p className="text-xs text-gray-600 mb-1">Need assistance?</p>
             <a href="#" className="text-sm text-blue-900 hover:text-blue-700">

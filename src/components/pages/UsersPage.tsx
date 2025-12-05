@@ -153,7 +153,7 @@ export function RequestsPage() {
                 <SelectValue placeholder="Filter by gender" />
               </SelectTrigger>
               <SelectContent>
-                {genderOptions.map((option) => (
+                {genderOptions?.map((option) => (
                   <SelectItem key={option.value} value={option.value}>
                     {option.label}
                   </SelectItem>
@@ -173,7 +173,7 @@ export function RequestsPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Zones</SelectItem>
-                {zones.map((zone) => (
+                {zones?.map((zone) => (
                   <SelectItem key={zone.id} value={zone.id.toString()}>
                     {zone.name}
                   </SelectItem>
@@ -193,7 +193,7 @@ export function RequestsPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All States</SelectItem>
-                {nigerianStates.map((stateName) => (
+                {nigerianStates?.map((stateName) => (
                   <SelectItem key={stateName} value={stateName}>
                     {stateName}
                   </SelectItem>
@@ -202,8 +202,8 @@ export function RequestsPage() {
             </Select>
 
             <div className="flex items-center text-sm text-gray-600">
-              Showing {applicants.length} request
-              {applicants.length !== 1 ? "s" : ""}
+              Showing {applicants?.length} request
+              {applicants?.length !== 1 ? "s" : ""}
             </div>
           </div>
         </CardContent>
@@ -216,9 +216,9 @@ export function RequestsPage() {
             <p className="text-sm text-red-600">
               Unable to load requests: {error.message}
             </p>
-          ) : isFetching && applicants.length === 0 ? (
+          ) : isFetching && applicants?.length === 0 ? (
             <div className="space-y-2">
-              {[...Array(5)].map((_, idx) => (
+              {[...Array(5)]?.map((_, idx) => (
                 <Skeleton key={idx} className="h-10 w-full" />
               ))}
             </div>
@@ -236,7 +236,7 @@ export function RequestsPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {applicants.map((applicant) => (
+                {applicants?.map((applicant) => (
                   <TableRow key={applicant.id}>
                     <TableCell className="text-gray-900 font-medium">
                       {applicant.name}
@@ -271,7 +271,7 @@ export function RequestsPage() {
                     </TableCell>
                   </TableRow>
                 ))}
-                {applicants.length === 0 && (
+                {applicants?.length === 0 && (
                   <TableRow>
                     <TableCell
                       colSpan={7}

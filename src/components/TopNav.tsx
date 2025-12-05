@@ -32,16 +32,42 @@ export function TopNav() {
 
           <div className="flex items-center gap-3">
             <div className="bg-blue-900 p-2 rounded-lg md:hidden">
-              <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-                <path d="M4 21V7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M9 21V12h6v9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M8 7h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <svg
+                className="w-6 h-6 text-white"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden
+              >
+                <path
+                  d="M4 21V7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M9 21V12h6v9"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M8 7h8"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             </div>
 
             <div className="hidden md:block">
               <h2 className="text-gray-900 text-lg">Admin Dashboard</h2>
-              <p className="text-sm text-gray-500">Manage your hostel system efficiently</p>
+              <p className="text-sm text-gray-500">
+                Manage your hostel system efficiently
+              </p>
             </div>
           </div>
         </div>
@@ -56,14 +82,18 @@ export function TopNav() {
           {/* Admin Profile */}
           <div className="flex items-center gap-3 pl-4 border-l border-gray-200 hidden sm:flex">
             <div className="text-right">
-              <p className="text-sm text-gray-900">{user?.name || "Admin User"}</p>
-              <p className="text-xs text-gray-500">{user?.email || "admin@hostel.com"}</p>
+              <p className="text-sm text-gray-900">
+                {user?.name || "Admin User"}
+              </p>
+              <p className="text-xs text-gray-500">
+                {user?.email || "admin@hostel.com"}
+              </p>
             </div>
             <Avatar>
               <AvatarFallback className="bg-blue-900 text-white">
                 {user?.name
                   ?.split(" ")
-                  .map((n) => n[0])
+                  ?.map((n) => n[0])
                   .join("")
                   .toUpperCase() || "AU"}
               </AvatarFallback>
@@ -71,7 +101,12 @@ export function TopNav() {
           </div>
 
           {/* Logout */}
-          <Button variant="outline" size="sm" onClick={logout} className="gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={logout}
+            className="gap-2"
+          >
             <LogOut className="w-4 h-4" />
             Logout
           </Button>

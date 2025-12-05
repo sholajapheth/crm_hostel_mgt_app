@@ -14,7 +14,7 @@ export const useCreateAnnouncement = () => {
   return useMutation<AnnouncementResponse, Error, CreateAnnouncementRequest>({
     mutationFn: async (data: CreateAnnouncementRequest) => {
       const response = await httpClient.post<AnnouncementResponse>(
-        "/api/v3/admin/announcements/",
+        "/api/v2/crm/admin/announcements/",
         data
       );
       return response.data;
@@ -37,12 +37,12 @@ export const useUpdateAnnouncement = () => {
   >({
     mutationFn: async ({ id, data }) => {
       const response = await httpClient.put<AnnouncementResponse>(
-        `/api/v3/admin/announcements/${id}`,
+        `/api/v2/crm/admin/announcements/${id}`,
         data
       );
       return response.data;
     },
-    onSuccess: (data, variables) => {
+    onSuccess: (_, variables) => {
       // Invalidate and refetch announcements list
       queryClient.invalidateQueries({ queryKey: announcementKeys.lists() });
       // Invalidate and refetch the specific announcement
@@ -59,7 +59,7 @@ export const useDeleteAnnouncement = () => {
 
   return useMutation<void, Error, number>({
     mutationFn: async (id: number) => {
-      await httpClient.delete(`/api/v3/admin/announcements/${id}`);
+      await httpClient.delete(`/api/v2/crm/admin/announcements/${id}`);
     },
     onSuccess: (_, id) => {
       // Invalidate and refetch announcements list
@@ -71,4 +71,3 @@ export const useDeleteAnnouncement = () => {
     },
   });
 };
-

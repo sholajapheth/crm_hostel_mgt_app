@@ -14,7 +14,7 @@ export const useApplicants = (filters?: ApplicantFilters) => {
     queryKey: adminUsersKeys.applicants(filters),
     queryFn: async () => {
       const response = await httpClient.get<Applicant[]>(
-        "/api/v3/admin/users/",
+        "/api/v2/crm/admin/users/",
         {
           params: filters,
         }
@@ -29,7 +29,7 @@ export const useAdminUsers = () => {
     queryKey: adminUsersKeys.adminUsers(),
     queryFn: async () => {
       const response = await httpClient.get<AdminUser[]>(
-        "/api/v3/admin/users/users/"
+        "/api/v2/crm/admin/users/users/"
       );
       return response.data;
     },
@@ -42,7 +42,7 @@ export const useAdminUser = (id: number, enabled = true) => {
     enabled: enabled && Boolean(id),
     queryFn: async () => {
       const response = await httpClient.get<AdminUser>(
-        `/api/v3/admin/users/users/${id}`
+        `/api/v2/crm/admin/users/users/${id}`
       );
       return response.data;
     },
@@ -50,7 +50,7 @@ export const useAdminUser = (id: number, enabled = true) => {
 };
 
 export const fetchApplicantsCsv = async (): Promise<Blob> => {
-  const response = await httpClient.get<Blob>("/api/v3/admin/users/csv", {
+  const response = await httpClient.get<Blob>("/api/v2/crm/admin/users/csv", {
     responseType: "blob",
   });
   return response.data;

@@ -13,7 +13,9 @@ export const useMembers = () => {
   return useQuery<Member[], Error>({
     queryKey: memberKeys.lists(),
     queryFn: async () => {
-      const response = await httpClient.get<Member[]>("/api/v3/admin/members/");
+      const response = await httpClient.get<Member[]>(
+        "/api/v2/crm/admin/members/"
+      );
       return response.data;
     },
   });
@@ -24,7 +26,9 @@ export const useMember = (id: number, enabled = true) => {
     queryKey: memberKeys.detail(id),
     enabled: enabled && Boolean(id),
     queryFn: async () => {
-      const response = await httpClient.get<Member>(`/api/v3/admin/members/${id}`);
+      const response = await httpClient.get<Member>(
+        `/api/v2/crm/admin/members/${id}`
+      );
       return response.data;
     },
   });

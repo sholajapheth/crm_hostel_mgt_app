@@ -19,6 +19,6 @@ export interface AuthResponse {
     name: string;
     gender?: string;
   };
+  token?: string;
   message?: string;
 }
-

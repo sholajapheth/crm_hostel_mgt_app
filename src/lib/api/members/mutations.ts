@@ -1,6 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { httpClient } from "./httpClient";
-import type { Member, CreateMemberRequest, UpdateMemberRequest } from "./interface";
+import type {
+  Member,
+  CreateMemberRequest,
+  UpdateMemberRequest,
+} from "./interface";
 import { memberKeys } from "./queries";
 
 export const useCreateMember = () => {
@@ -8,7 +12,10 @@ export const useCreateMember = () => {
 
   return useMutation<Member, Error, CreateMemberRequest>({
     mutationFn: async (data) => {
-      const response = await httpClient.post<Member>("/api/v3/admin/members/", data);
+      const response = await httpClient.post<Member>(
+        "/api/v2/crm/admin/members/",
+        data
+      );
       return response.data;
     },
     onSuccess: () => {
@@ -22,12 +29,17 @@ export const useUpdateMember = () => {
 
   return useMutation<Member, Error, { id: number; data: UpdateMemberRequest }>({
     mutationFn: async ({ id, data }) => {
-      const response = await httpClient.put<Member>(`/api/v3/admin/members/${id}`, data);
+      const response = await httpClient.put<Member>(
+        `/api/v2/crm/admin/members/${id}`,
+        data
+      );
       return response.data;
     },
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: memberKeys.lists() });
-      queryClient.invalidateQueries({ queryKey: memberKeys.detail(variables.id) });
+      queryClient.invalidateQueries({
+        queryKey: memberKeys.detail(variables.id),
+      });
     },
   });
 };
@@ -37,7 +49,7 @@ export const useDeleteMember = () => {
 
   return useMutation<void, Error, number>({
     mutationFn: async (id: number) => {
-      await httpClient.delete(`/api/v3/admin/members/${id}`);
+      await httpClient.delete(`/api/v2/crm/admin/members/${id}`);
     },
     onSuccess: (_data, id) => {
       queryClient.invalidateQueries({ queryKey: memberKeys.lists() });

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useAuthStore } from "../stores/authStore";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -10,6 +11,14 @@ export function createHttpClient() {
   });
 
   client.interceptors.request.use((config) => {
+    // Get token from auth store
+    const token = useAuthStore.getState().token;
+
+    // Add Authorization header if token exists
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
     console.log("HTTP Request:", {
       url: config.url,
       method: config.method,

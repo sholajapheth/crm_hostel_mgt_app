@@ -61,11 +61,11 @@ export function DashboardPage() {
       ? Math.round((summary.assignedUsers / summary.totalUsers) * 100)
       : 0;
 
-  const showGenderEmptyState = !genderFetching && genderData.length === 0;
+  const showGenderEmptyState = !genderFetching && genderData?.length === 0;
   const showRecentUsersEmptyState =
-    !recentUsersFetching && recentUsers.length === 0;
+    !recentUsersFetching && recentUsers?.length === 0;
   const showAnnouncementsEmptyState =
-    !announcementsFetching && latestAnnouncements.length === 0;
+    !announcementsFetching && latestAnnouncements?.length === 0;
 
   return (
     <div className="p-8">
@@ -113,7 +113,7 @@ export function DashboardPage() {
             value: `${occupancyRate}%`,
             helper: "Users with hostel assignments",
           },
-        ].map((metric) => (
+        ]?.map((metric) => (
           <Card key={metric.title}>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm text-gray-600">
@@ -172,10 +172,10 @@ export function DashboardPage() {
                     fill="#8884d8"
                     dataKey="value"
                   >
-                    {genderData.map((_, index) => (
+                    {genderData?.map((_, index) => (
                       <Cell
                         key={`cell-${index}`}
-                        fill={COLORS[index % COLORS.length]}
+                        fill={COLORS[index % COLORS?.length]}
                       />
                     ))}
                   </Pie>
@@ -195,7 +195,7 @@ export function DashboardPage() {
           <CardContent>
             {announcementsFetching ? (
               <div className="space-y-4">
-                {[...Array(3)].map((_, index) => (
+                {[...Array(3)]?.map((_, index) => (
                   <div key={index} className="space-y-2">
                     <Skeleton className="h-5 w-48" />
                     <Skeleton className="h-4 w-full" />
@@ -213,7 +213,7 @@ export function DashboardPage() {
               </p>
             ) : (
               <div className="space-y-4">
-                {latestAnnouncements.map((announcement) => (
+                {latestAnnouncements?.map((announcement) => (
                   <div
                     key={announcement.id}
                     className="pb-4 border-b border-gray-100 last:border-0 last:pb-0"
@@ -242,7 +242,7 @@ export function DashboardPage() {
         <CardContent>
           {recentUsersFetching ? (
             <div className="space-y-2">
-              {[...Array(5)].map((_, index) => (
+              {[...Array(5)]?.map((_, index) => (
                 <Skeleton key={index} className="h-10 w-full" />
               ))}
             </div>
@@ -267,7 +267,7 @@ export function DashboardPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {recentUsers.map((user) => (
+                {recentUsers?.map((user) => (
                   <TableRow key={user.id}>
                     <TableCell className="text-gray-900">{user.name}</TableCell>
                     <TableCell>{user.gender}</TableCell>

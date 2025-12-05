@@ -9,6 +9,10 @@ import { HostelsPage } from "./components/pages/HostelsPage";
 import { HostelAllocationPage } from "./components/pages/HostelAllocationPage";
 import { AnnouncementsPage } from "./components/pages/AnnouncementsPage";
 import { SettingsPage } from "./components/pages/SettingsPage";
+import ProgramsPage from "./components/pages/programs/page";
+import CreateProgramPage from "./components/pages/programs/create/page";
+import EditProgramPage from "./components/pages/programs/edit/page";
+import RegistrationsPage from "./components/pages/registrations/page";
 import { Toaster } from "./components/ui/sonner";
 
 const queryClient = new QueryClient({
@@ -38,6 +42,10 @@ function AppRoutes() {
         <Route path="/requests" element={<RequestsPage />} />
         <Route path="/hostels" element={<HostelsPage />} />
         <Route path="/hostel-allocation" element={<HostelAllocationPage />} />
+        <Route path="/programs" element={<ProgramsPage />} />
+        <Route path="/programs/create" element={<CreateProgramPage />} />
+        <Route path="/programs/:id/edit" element={<EditProgramPage />} />
+        <Route path="/registrations" element={<RegistrationsPage />} />
         <Route path="/announcements" element={<AnnouncementsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
       </Route>

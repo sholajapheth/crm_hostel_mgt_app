@@ -15,7 +15,10 @@ export const useCreateHostel = () => {
 
   return useMutation<Hostel, Error, CreateHostelRequest>({
     mutationFn: async (data: CreateHostelRequest) => {
-      const response = await httpClient.post<Hostel>("/api/v3/admin/hostels/", data);
+      const response = await httpClient.post<Hostel>(
+        "/api/v2/crm/admin/hostels/",
+        data
+      );
       return response.data;
     },
     onSuccess: () => {
@@ -29,12 +32,17 @@ export const useUpdateHostel = () => {
 
   return useMutation<Hostel, Error, { id: number; data: UpdateHostelRequest }>({
     mutationFn: async ({ id, data }) => {
-      const response = await httpClient.put<Hostel>(`/api/v3/admin/hostels/${id}`, data);
+      const response = await httpClient.put<Hostel>(
+        `/api/v2/crm/admin/hostels/${id}`,
+        data
+      );
       return response.data;
     },
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: hostelKeys.lists() });
-      queryClient.invalidateQueries({ queryKey: hostelKeys.detail(variables.id) });
+      queryClient.invalidateQueries({
+        queryKey: hostelKeys.detail(variables.id),
+      });
     },
   });
 };
@@ -44,7 +52,7 @@ export const useDeleteHostel = () => {
 
   return useMutation<void, Error, number>({
     mutationFn: async (id: number) => {
-      await httpClient.delete(`/api/v3/admin/hostels/${id}`);
+      await httpClient.delete(`/api/v2/crm/admin/hostels/${id}`);
     },
     onSuccess: (_data, id) => {
       queryClient.invalidateQueries({ queryKey: hostelKeys.lists() });
@@ -58,7 +66,7 @@ export const useAssignHostel = () => {
 
   return useMutation<void, Error, AssignHostelRequest>({
     mutationFn: async (data: AssignHostelRequest) => {
-      await httpClient.post("/api/v3/admin/hostels/assign", data);
+      await httpClient.post("/api/v2/crm/admin/hostels/assign", data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: hostelKeys.lists() });
@@ -72,7 +80,7 @@ export const useAssignAllHostels = () => {
   return useMutation<AssignAllHostelsResponse, Error, void>({
     mutationFn: async () => {
       const response = await httpClient.post<AssignAllHostelsResponse>(
-        "/api/v3/admin/hostels/assign-all"
+        "/api/v2/crm/admin/hostels/assign-all"
       );
       return response.data;
     },
@@ -87,7 +95,7 @@ export const useManualAssignHostel = () => {
 
   return useMutation<void, Error, ManualAssignHostelRequest>({
     mutationFn: async (data: ManualAssignHostelRequest) => {
-      await httpClient.post("/api/v3/admin/hostels/manual-assign", {
+      await httpClient.post("/api/v2/crm/admin/hostels/manual-assign", {
         memberIds: data.memberIds,
         hostelId: data.hostelId,
       });

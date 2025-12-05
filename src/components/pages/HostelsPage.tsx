@@ -31,9 +31,8 @@ import type { Hostel, CreateHostelRequest } from "@/lib/api/hostels";
 import { toast } from "sonner";
 
 const genderOptions = [
-  { label: "Male", value: "male" },
-  { label: "Female", value: "female" },
-  { label: "All (Unisex)", value: "all" },
+  { label: "Male", value: "MALE" },
+  { label: "Female", value: "FEMALE" },
 ];
 
 const defaultForm: CreateHostelRequest = {
@@ -41,18 +40,14 @@ const defaultForm: CreateHostelRequest = {
   location: "",
   capacity: 0,
   remainingCapacity: 0,
-  gender: "all",
+  gender: "MALE",
 };
 
 export function HostelsPage() {
   const [formState, setFormState] = useState<CreateHostelRequest>(defaultForm);
   const [editingHostel, setEditingHostel] = useState<Hostel | null>(null);
 
-  const {
-    data: hostels = [],
-    isFetching,
-    error,
-  } = useHostels();
+  const { data: hostels = [], isFetching, error } = useHostels();
 
   const createMutation = useCreateHostel();
   const updateMutation = useUpdateHostel();
@@ -74,19 +69,29 @@ export function HostelsPage() {
   }, [editingHostel]);
 
   const occupiedCount = useMemo(() => {
-    return hostels.reduce((acc, hostel) => acc + (hostel.capacity - hostel.remainingCapacity), 0);
+    return hostels.reduce(
+      (acc, hostel) => acc + (hostel.capacity - hostel.remainingCapacity),
+      0
+    );
   }, [hostels]);
 
   const totalCapacity = useMemo(() => {
     return hostels.reduce((acc, hostel) => acc + hostel.capacity, 0);
   }, [hostels]);
 
-  const occupancyRate = totalCapacity > 0 ? Math.round((occupiedCount / totalCapacity) * 100) : 0;
+  const occupancyRate =
+    totalCapacity > 0 ? Math.round((occupiedCount / totalCapacity) * 100) : 0;
 
-  const handleInputChange = (field: keyof CreateHostelRequest, value: string) => {
+  const handleInputChange = (
+    field: keyof CreateHostelRequest,
+    value: string
+  ) => {
     if (field === "capacity" || field === "remainingCapacity") {
       const numericValue = Number(value);
-      setFormState((prev) => ({ ...prev, [field]: Number.isNaN(numericValue) ? 0 : numericValue }));
+      setFormState((prev) => ({
+        ...prev,
+        [field]: Number.isNaN(numericValue) ? 0 : numericValue,
+      }));
     } else {
       setFormState((prev) => ({ ...prev, [field]: value }));
     }
@@ -110,14 +115,20 @@ export function HostelsPage() {
       return;
     }
 
-    if (formState.remainingCapacity < 0 || formState.remainingCapacity > formState.capacity) {
+    if (
+      formState.remainingCapacity < 0 ||
+      formState.remainingCapacity > formState.capacity
+    ) {
       toast.error("Remaining capacity must be between 0 and capacity");
       return;
     }
 
     try {
       if (editingHostel) {
-        await updateMutation.mutateAsync({ id: editingHostel.id, data: formState });
+        await updateMutation.mutateAsync({
+          id: editingHostel.id,
+          data: formState,
+        });
         toast.success("Hostel updated successfully");
       } else {
         await createMutation.mutateAsync(formState);
@@ -164,7 +175,8 @@ export function HostelsPage() {
         <div>
           <h1 className="text-2xl text-gray-900 mb-2">Hostel Management</h1>
           <p className="text-gray-600">
-            Manage the hostels available for allocations and monitor capacity usage.
+            Manage the hostels available for allocations and monitor capacity
+            usage.
           </p>
         </div>
         <Button
@@ -188,22 +200,28 @@ export function HostelsPage() {
 
       {/* Summary */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {[{
-          title: "Total Hostels",
-          value: hostels.length,
-          helper: "Active hostels in the system",
-        }, {
-          title: "Total Capacity",
-          value: totalCapacity,
-          helper: "Combined bed spaces across hostels",
-        }, {
-          title: "Occupancy Rate",
-          value: `${occupancyRate}%`,
-          helper: `${occupiedCount} occupants currently assigned`,
-        }].map((metric) => (
+        {[
+          {
+            title: "Total Hostels",
+            value: hostels?.length,
+            helper: "Active hostels in the system",
+          },
+          {
+            title: "Total Capacity",
+            value: totalCapacity,
+            helper: "Combined bed spaces across hostels",
+          },
+          {
+            title: "Occupancy Rate",
+            value: `${occupancyRate}%`,
+            helper: `${occupiedCount} occupants currently assigned`,
+          },
+        ]?.map((metric) => (
           <Card key={metric.title}>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm text-gray-600">{metric.title}</CardTitle>
+              <CardTitle className="text-sm text-gray-600">
+                {metric.title}
+              </CardTitle>
               <Home className="w-5 h-5 text-blue-900" />
             </CardHeader>
             <CardContent>
@@ -214,7 +232,9 @@ export function HostelsPage() {
                 </>
               ) : (
                 <>
-                  <div className="text-3xl text-gray-900 mb-1">{metric.value}</div>
+                  <div className="text-3xl text-gray-900 mb-1">
+                    {metric.value}
+                  </div>
                   <p className="text-xs text-gray-500">{metric.helper}</p>
                 </>
               )}
@@ -226,10 +246,15 @@ export function HostelsPage() {
       {/* Hostel Form */}
       <Card>
         <CardHeader>
-          <CardTitle>{editingHostel ? "Edit Hostel" : "Add New Hostel"}</CardTitle>
+          <CardTitle>
+            {editingHostel ? "Edit Hostel" : "Add New Hostel"}
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <form
+            onSubmit={handleSubmit}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+          >
             <div className="space-y-2">
               <label className="text-sm text-gray-600" htmlFor="name">
                 Hostel Name
@@ -270,14 +295,19 @@ export function HostelsPage() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm text-gray-600" htmlFor="remainingCapacity">
+              <label
+                className="text-sm text-gray-600"
+                htmlFor="remainingCapacity"
+              >
                 Remaining Capacity
               </label>
               <Input
                 id="remainingCapacity"
                 type="number"
                 value={formState.remainingCapacity}
-                onChange={(e) => handleInputChange("remainingCapacity", e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("remainingCapacity", e.target.value)
+                }
                 min={0}
                 max={formState.capacity}
               />
@@ -293,7 +323,7 @@ export function HostelsPage() {
                   <SelectValue placeholder="Select gender" />
                 </SelectTrigger>
                 <SelectContent>
-                  {genderOptions.map((option) => (
+                  {genderOptions?.map((option) => (
                     <SelectItem key={option.value} value={option.value}>
                       {option.label}
                     </SelectItem>
@@ -333,15 +363,19 @@ export function HostelsPage() {
         </CardHeader>
         <CardContent>
           {error ? (
-            <p className="text-sm text-red-600">Unable to load hostels: {error.message}</p>
-          ) : isFetching && hostels.length === 0 ? (
+            <p className="text-sm text-red-600">
+              Unable to load hostels: {error.message}
+            </p>
+          ) : isFetching && hostels?.length === 0 ? (
             <div className="space-y-2">
-              {[...Array(5)].map((_, idx) => (
+              {[...Array(5)]?.map((_, idx) => (
                 <Skeleton key={idx} className="h-10 w-full" />
               ))}
             </div>
-          ) : hostels.length === 0 ? (
-            <p className="text-sm text-gray-500">No hostels have been created yet.</p>
+          ) : hostels?.length === 0 ? (
+            <p className="text-sm text-gray-500">
+              No hostels have been created yet.
+            </p>
           ) : (
             <Table>
               <TableHeader>
@@ -355,7 +389,7 @@ export function HostelsPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {hostels.map((hostel) => (
+                {hostels?.map((hostel) => (
                   <TableRow key={hostel.id}>
                     <TableCell className="text-gray-900 font-medium">
                       {hostel.name}

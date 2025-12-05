@@ -12,15 +12,18 @@ export const useRegister = () => {
   return useMutation<AuthResponse, Error, RegisterRequest>({
     mutationFn: async (data: RegisterRequest) => {
       const response = await httpClient.post<AuthResponse>(
-        "/api/v3/admin/auth/register",
+        "/api/v2/admin/auth/register",
         data
       );
       return response.data;
     },
     onSuccess: (data) => {
       if (data.user) {
-        // Auto-login after successful registration
+        // Store user and token after successful registration
         useAuthStore.getState().setUser(data.user);
+        if (data.token) {
+          useAuthStore.getState().setToken(data.token);
+        }
         useAuthStore.getState().setAuthenticated(true);
         toast.success("Registration successful! Welcome!");
         navigate("/dashboard", { replace: true });
@@ -45,13 +48,19 @@ export const useLogin = () => {
   return useMutation<AuthResponse, Error, LoginRequest>({
     mutationFn: async (data: LoginRequest) => {
       const response = await httpClient.post<AuthResponse>(
-        "/api/v3/admin/auth/login",
+        "/api/v2/admin/auth/login",
         data
       );
       return response.data;
     },
-    onSuccess: () => {
-      // Update auth store - session is managed via cookies
+    onSuccess: (data) => {
+      // Store user and token from login response
+      if (data.user) {
+        useAuthStore.getState().setUser(data.user);
+      }
+      if (data.token) {
+        useAuthStore.getState().setToken(data.token);
+      }
       useAuthStore.getState().setAuthenticated(true);
       toast.success("Login successful!");
       // Navigate to dashboard on successful login
@@ -73,7 +82,7 @@ export const useLogout = () => {
 
   return useMutation<void, Error, void>({
     mutationFn: async () => {
-      await httpClient.post("/api/v3/admin/auth/logout");
+      await httpClient.post("/api/v2/admin/auth/logout");
     },
     onSuccess: () => {
       // Clear auth state

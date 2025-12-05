@@ -34,7 +34,7 @@ export function HostelAllocationPage() {
   const userFilters: ApplicantFilters = useMemo(() => {
     const filter: ApplicantFilters = {};
     if (genderFilter !== "all") {
-      filter.gender = genderFilter as "male" | "female";
+      filter.gender = genderFilter as "MALE" | "FEMALE";
     }
     if (zoneId !== undefined) {
       filter.zoneId = zoneId;
@@ -73,7 +73,7 @@ export function HostelAllocationPage() {
   };
 
   const handleAssignHostel = async () => {
-    if (selectedUsers.length === 0) {
+    if (selectedUsers?.length === 0) {
       toast.error("Please select at least one user");
       return;
     }
@@ -85,7 +85,7 @@ export function HostelAllocationPage() {
     const hostel = hostels.find((h) => h.id === selectedHostel);
     if (hostel) {
       const availableSpace = hostel.remainingCapacity;
-      if (selectedUsers.length > availableSpace) {
+      if (selectedUsers?.length > availableSpace) {
         toast.error(
           `Not enough space. Only ${availableSpace} spots available.`
         );
@@ -99,7 +99,7 @@ export function HostelAllocationPage() {
         hostelId: selectedHostel,
       });
       toast.success(
-        `Successfully assigned ${selectedUsers.length} user(s) to ${hostel?.name}`
+        `Successfully assigned ${selectedUsers?.length} user(s) to ${hostel?.name}`
       );
       setSelectedUsers([]);
       setSelectedHostel(undefined);
@@ -110,7 +110,7 @@ export function HostelAllocationPage() {
 
   // Calculate zone capacity from applicants data
   const getZoneCapacity = (zoneName: string) => {
-    const zoneUsers = allApplicants.filter((u) => u.zone === zoneName).length;
+    const zoneUsers = allApplicants.filter((u) => u.zone === zoneName)?.length;
     return { used: zoneUsers, max: 500 };
   };
 
@@ -131,13 +131,13 @@ export function HostelAllocationPage() {
         <CardContent>
           {applicantsFetching ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {[...Array(3)].map((_, idx) => (
+              {[...Array(3)]?.map((_, idx) => (
                 <Skeleton key={idx} className="h-20 w-full" />
               ))}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {zones.map((zone) => {
+              {zones?.map((zone) => {
                 const capacity = getZoneCapacity(zone.name);
                 const percentage = (capacity.used / capacity.max) * 100;
                 return (
@@ -170,8 +170,8 @@ export function HostelAllocationPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Genders</SelectItem>
-                <SelectItem value="male">Male</SelectItem>
-                <SelectItem value="female">Female</SelectItem>
+                <SelectItem value="MALE">Male</SelectItem>
+                <SelectItem value="FEMALE">Female</SelectItem>
               </SelectContent>
             </Select>
 
@@ -186,7 +186,7 @@ export function HostelAllocationPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Zones</SelectItem>
-                {zones.map((zone) => (
+                {zones?.map((zone) => (
                   <SelectItem key={zone.id} value={zone.id.toString()}>
                     {zone.name}
                   </SelectItem>
@@ -203,24 +203,24 @@ export function HostelAllocationPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <UserCheck className="w-5 h-5" />
-              Unassigned Users ({unassignedUsers.length})
+              Unassigned Users ({unassignedUsers?.length})
             </CardTitle>
           </CardHeader>
           <CardContent>
             {applicantsFetching ? (
               <div className="space-y-2">
-                {[...Array(5)].map((_, idx) => (
+                {[...Array(5)]?.map((_, idx) => (
                   <Skeleton key={idx} className="h-16 w-full" />
                 ))}
               </div>
             ) : (
               <div className="space-y-2 max-h-96 overflow-y-auto">
-                {unassignedUsers.length === 0 ? (
+                {unassignedUsers?.length === 0 ? (
                   <p className="text-sm text-gray-500 text-center py-8">
                     No unassigned users matching filters
                   </p>
                 ) : (
-                  unassignedUsers.map((user) => (
+                  unassignedUsers?.map((user) => (
                     <div
                       key={user.id}
                       className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
@@ -241,10 +241,10 @@ export function HostelAllocationPage() {
                 )}
               </div>
             )}
-            {selectedUsers.length > 0 && (
+            {selectedUsers?.length > 0 && (
               <div className="mt-4 p-3 bg-blue-50 rounded-lg">
                 <p className="text-sm text-blue-900">
-                  {selectedUsers.length} user(s) selected
+                  {selectedUsers?.length} user(s) selected
                 </p>
               </div>
             )}
@@ -256,24 +256,24 @@ export function HostelAllocationPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Building className="w-5 h-5" />
-              Available Hostels ({filteredHostels.length})
+              Available Hostels ({filteredHostels?.length})
             </CardTitle>
           </CardHeader>
           <CardContent>
             {hostelsFetching ? (
               <div className="space-y-3 mb-4">
-                {[...Array(3)].map((_, idx) => (
+                {[...Array(3)]?.map((_, idx) => (
                   <Skeleton key={idx} className="h-24 w-full" />
                 ))}
               </div>
             ) : (
               <div className="space-y-3 max-h-96 overflow-y-auto mb-4">
-                {filteredHostels.length === 0 ? (
+                {filteredHostels?.length === 0 ? (
                   <p className="text-sm text-gray-500 text-center py-8">
                     No hostels matching filters
                   </p>
                 ) : (
-                  filteredHostels.map((hostel) => {
+                  filteredHostels?.map((hostel) => {
                     const available = hostel.remainingCapacity;
                     const occupied = hostel.capacity - hostel.remainingCapacity;
                     const percentage =
@@ -314,7 +314,7 @@ export function HostelAllocationPage() {
               onClick={handleAssignHostel}
               className="w-full bg-blue-900 hover:bg-blue-800"
               disabled={
-                selectedUsers.length === 0 ||
+                selectedUsers?.length === 0 ||
                 !selectedHostel ||
                 manualAssignMutation.isPending
               }
