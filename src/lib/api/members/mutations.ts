@@ -27,7 +27,7 @@ export const useCreateMember = () => {
 export const useUpdateMember = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<Member, Error, { id: number; data: UpdateMemberRequest }>({
+  return useMutation<Member, Error, { id: string; data: UpdateMemberRequest }>({
     mutationFn: async ({ id, data }) => {
       const response = await httpClient.put<Member>(
         `/api/v2/crm/admin/members/${id}`,
@@ -48,7 +48,7 @@ export const useDeleteMember = () => {
   const queryClient = useQueryClient();
 
   return useMutation<void, Error, number>({
-    mutationFn: async (id: number) => {
+    mutationFn: async (id: string) => {
       await httpClient.delete(`/api/v2/crm/admin/members/${id}`);
     },
     onSuccess: (_data, id) => {

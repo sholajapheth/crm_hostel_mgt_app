@@ -12,7 +12,7 @@ export interface GenderDistributionEntry {
 }
 
 export interface DashboardRecentUser {
-  id: number;
+  id: string;
   name: string;
   gender: string;
   email: string;
@@ -23,7 +23,7 @@ export interface DashboardRecentUser {
 }
 
 export interface DashboardAnnouncement {
-  id: number;
+  id: string;
   title: string;
   message: string;
   createdAt: string;

@@ -1,6 +1,6 @@
 // Announcement entity
 export interface Announcement {
-  id: number;
+  id: string;
   title: string;
   message: string;
   createdAt: string;

@@ -8,7 +8,7 @@ export const hostelKeys = {
   list: (params?: Record<string, unknown>) =>
     [...hostelKeys.lists(), params ?? {}] as const,
   details: () => [...hostelKeys.all, "detail"] as const,
-  detail: (id: number) => [...hostelKeys.details(), id] as const,
+  detail: (id: string) => [...hostelKeys.details(), id] as const,
 };
 
 export const useHostels = () => {
@@ -23,7 +23,7 @@ export const useHostels = () => {
   });
 };
 
-export const useHostel = (id: number, enabled = true) => {
+export const useHostel = (id: string, enabled = true) => {
   return useQuery<Hostel, Error>({
     queryKey: hostelKeys.detail(id),
     enabled: enabled && Boolean(id),

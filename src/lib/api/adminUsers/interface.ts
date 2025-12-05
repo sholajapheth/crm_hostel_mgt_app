@@ -1,6 +1,6 @@
 export interface Applicant {
-  id: number;
-  memberId: number;
+  id: string;
+  memberId: string;
   name: string;
   gender: string;
   email: string;
@@ -12,14 +12,16 @@ export interface Applicant {
 }
 
 export interface AdminUser {
-  id: number;
-  memberId: number;
+  id: string;
+  memberId: string;
   name: string;
   gender: string;
   email: string;
-  zoneId: number;
-  fellowshipId: number;
+  zoneId: string;
+  fellowshipId: string;
   isAdmin: boolean;
+  role: string;
+  status: string;
 }
 
 export interface ApplicantFilters {
@@ -34,9 +36,9 @@ export interface CreateAdminUserRequest {
   gender: string;
   email: string;
   password: string;
-  memberId: number;
-  zoneId: number;
-  fellowshipId: number;
+  memberId: string;
+  zoneId: string;
+  fellowshipId: string;
   isAdmin: boolean;
 }
 
@@ -49,4 +51,6 @@ export interface UpdateAdminUserRequest {
   zoneId?: number;
   fellowshipId?: number;
   isAdmin?: boolean;
+  status?: string;
+  role?: string;
 }

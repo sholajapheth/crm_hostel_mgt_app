@@ -6,7 +6,7 @@ export const adminUsersKeys = {
   applicants: (filters?: ApplicantFilters) =>
     ["admin", "applicants", filters ?? {}] as const,
   adminUsers: () => ["admin", "users", "list"] as const,
-  adminUser: (id: number) => ["admin", "users", "detail", id] as const,
+  adminUser: (id: string) => ["admin", "users", "detail", id] as const,
 };
 
 export const useApplicants = (filters?: ApplicantFilters) => {
@@ -29,20 +29,20 @@ export const useAdminUsers = () => {
     queryKey: adminUsersKeys.adminUsers(),
     queryFn: async () => {
       const response = await httpClient.get<AdminUser[]>(
-        "/api/v2/crm/admin/users/users/"
+        "/api/v2/crm/admin/users/"
       );
       return response.data;
     },
   });
 };
 
-export const useAdminUser = (id: number, enabled = true) => {
+export const useAdminUser = (id: string, enabled = true) => {
   return useQuery<AdminUser, Error>({
     queryKey: adminUsersKeys.adminUser(id),
     enabled: enabled && Boolean(id),
     queryFn: async () => {
       const response = await httpClient.get<AdminUser>(
-        `/api/v2/crm/admin/users/users/${id}`
+        `/api/v2/crm/admin/users/${id}`
       );
       return response.data;
     },

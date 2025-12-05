@@ -30,7 +30,7 @@ export const useCreateHostel = () => {
 export const useUpdateHostel = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<Hostel, Error, { id: number; data: UpdateHostelRequest }>({
+  return useMutation<Hostel, Error, { id: string; data: UpdateHostelRequest }>({
     mutationFn: async ({ id, data }) => {
       const response = await httpClient.put<Hostel>(
         `/api/v2/crm/admin/hostels/${id}`,
@@ -51,7 +51,7 @@ export const useDeleteHostel = () => {
   const queryClient = useQueryClient();
 
   return useMutation<void, Error, number>({
-    mutationFn: async (id: number) => {
+    mutationFn: async (id: string) => {
       await httpClient.delete(`/api/v2/crm/admin/hostels/${id}`);
     },
     onSuccess: (_data, id) => {

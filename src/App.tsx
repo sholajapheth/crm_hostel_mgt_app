@@ -14,6 +14,7 @@ import CreateProgramPage from "./components/pages/programs/create/page";
 import EditProgramPage from "./components/pages/programs/edit/page";
 import RegistrationsPage from "./components/pages/registrations/page";
 import { Toaster } from "./components/ui/sonner";
+import { AdminUsersPage } from "./components/pages/AdminUsersPage"; // Import new page
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -42,6 +43,7 @@ function AppRoutes() {
         <Route path="/requests" element={<RequestsPage />} />
         <Route path="/hostels" element={<HostelsPage />} />
         <Route path="/hostel-allocation" element={<HostelAllocationPage />} />
+        <Route path="/admin-users" element={<AdminUsersPage />} />
         <Route path="/programs" element={<ProgramsPage />} />
         <Route path="/programs/create" element={<CreateProgramPage />} />
         <Route path="/programs/:id/edit" element={<EditProgramPage />} />

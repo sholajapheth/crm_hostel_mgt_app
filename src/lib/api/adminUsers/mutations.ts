@@ -13,7 +13,7 @@ export const useCreateAdminUser = () => {
   return useMutation<AdminUser, Error, CreateAdminUserRequest>({
     mutationFn: async (data) => {
       const response = await httpClient.post<AdminUser>(
-        "/api/v2/crm/admin/users/users/",
+        "/api/v2/crm/admin/users/",
         data
       );
       return response.data;
@@ -30,11 +30,11 @@ export const useUpdateAdminUser = () => {
   return useMutation<
     AdminUser,
     Error,
-    { id: number; data: UpdateAdminUserRequest }
+    { id: string; data: UpdateAdminUserRequest }
   >({
     mutationFn: async ({ id, data }) => {
       const response = await httpClient.put<AdminUser>(
-        `/api/v2/crm/admin/users/users/${id}`,
+        `/api/v2/crm/admin/users/${id}`,
         data
       );
       return response.data;
@@ -52,8 +52,8 @@ export const useDeleteAdminUser = () => {
   const queryClient = useQueryClient();
 
   return useMutation<void, Error, number>({
-    mutationFn: async (id: number) => {
-      await httpClient.delete(`/api/v2/crm/admin/users/users/${id}`);
+    mutationFn: async (id: string) => {
+      await httpClient.delete(`/api/v2/crm/admin/users/${id}`);
     },
     onSuccess: (_data, id) => {
       queryClient.invalidateQueries({ queryKey: adminUsersKeys.adminUsers() });

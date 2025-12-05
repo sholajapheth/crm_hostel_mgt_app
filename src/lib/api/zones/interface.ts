@@ -1,5 +1,5 @@
 export interface Zone {
-  id: number;
+  id: string;
   name: string;
   description: string;
   isActive: number;

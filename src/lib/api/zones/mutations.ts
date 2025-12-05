@@ -23,7 +23,7 @@ export const useCreateZone = () => {
 export const useUpdateZone = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<Zone, Error, { id: number; data: UpdateZoneRequest }>({
+  return useMutation<Zone, Error, { id: string; data: UpdateZoneRequest }>({
     mutationFn: async ({ id, data }) => {
       const response = await httpClient.put<Zone>(
         `/api/v2/crm/admin/zones/${id}`,
@@ -44,7 +44,7 @@ export const useDeleteZone = () => {
   const queryClient = useQueryClient();
 
   return useMutation<void, Error, number>({
-    mutationFn: async (id: number) => {
+    mutationFn: async (id: string) => {
       await httpClient.delete(`/api/v2/crm/admin/zones/${id}`);
     },
     onSuccess: (_data, id) => {

@@ -9,7 +9,7 @@ export const announcementKeys = {
   list: (filters: string) =>
     [...announcementKeys.lists(), { filters }] as const,
   details: () => [...announcementKeys.all, "detail"] as const,
-  detail: (id: number) => [...announcementKeys.details(), id] as const,
+  detail: (id: string) => [...announcementKeys.details(), id] as const,
 };
 
 // Get all announcements
@@ -26,7 +26,7 @@ export const useAnnouncements = () => {
 };
 
 // Get single announcement by ID
-export const useAnnouncement = (id: number) => {
+export const useAnnouncement = (id: string) => {
   return useQuery<AnnouncementResponse, Error>({
     queryKey: announcementKeys.detail(id),
     queryFn: async () => {

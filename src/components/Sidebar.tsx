@@ -20,7 +20,11 @@ interface NavItem {
   icon: React.ReactNode;
 }
 
+import { useAuthStore } from "@/lib/stores/authStore";
+
 export function Sidebar() {
+  const user = useAuthStore((state) => state.user);
+
   const navItems: NavItem[] = [
     {
       path: "/dashboard",
@@ -59,6 +63,14 @@ export function Sidebar() {
       icon: <Settings className="w-5 h-5" />,
     },
   ];
+
+  if (user?.isAdmin) {
+    navItems.push({
+      path: "/admin-users",
+      label: "User Management",
+      icon: <Users className="w-5 h-5" />,
+    });
+  }
 
   const [mobileOpen, setMobileOpen] = useState(false);
 

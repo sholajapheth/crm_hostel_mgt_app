@@ -1,6 +1,6 @@
 export interface Member {
-  id: number;
-  fellowshipId: number;
+  id: string;
+  fellowshipId: string;
   name: string;
   gender: string;
   email: string;
@@ -10,7 +10,7 @@ export interface CreateMemberRequest {
   name: string;
   gender: string;
   email: string;
-  fellowshipId: number;
+  fellowshipId: string;
 }
 
 export interface UpdateMemberRequest extends CreateMemberRequest {}

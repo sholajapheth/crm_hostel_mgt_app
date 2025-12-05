@@ -6,7 +6,7 @@ export const zoneKeys = {
   all: ["zones"] as const,
   lists: () => [...zoneKeys.all, "list"] as const,
   details: () => [...zoneKeys.all, "detail"] as const,
-  detail: (id: number) => [...zoneKeys.details(), id] as const,
+  detail: (id: string) => [...zoneKeys.details(), id] as const,
 };
 
 export const useZones = () => {
@@ -19,7 +19,7 @@ export const useZones = () => {
   });
 };
 
-export const useZone = (id: number, enabled = true) => {
+export const useZone = (id: string, enabled = true) => {
   return useQuery<Zone, Error>({
     queryKey: zoneKeys.detail(id),
     enabled: enabled && Boolean(id),

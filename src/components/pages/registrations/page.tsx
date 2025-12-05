@@ -106,7 +106,7 @@ export default function RegistrationsPage() {
     }
   }
 
-  async function handleDelete(id: number) {
+  async function handleDelete(id: string) {
     setDeletingId(id);
     try {
       await httpClient.delete(

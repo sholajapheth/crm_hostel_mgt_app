@@ -1,5 +1,5 @@
 export interface Hostel {
-  id: number;
+  id: string;
   name: string;
   location: string;
   capacity: number;
@@ -18,7 +18,7 @@ export interface CreateHostelRequest {
 export interface UpdateHostelRequest extends CreateHostelRequest {}
 
 export interface AssignHostelRequest {
-  memberId: number;
+  memberId: string;
   hostelId?: number;
 }
 
@@ -30,5 +30,5 @@ export interface AssignAllHostelsResponse {
 
 export interface ManualAssignHostelRequest {
   memberIds: number[];
-  hostelId: number;
+  hostelId: string;
 }

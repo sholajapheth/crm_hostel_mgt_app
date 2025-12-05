@@ -6,7 +6,7 @@ export const memberKeys = {
   all: ["members"] as const,
   lists: () => [...memberKeys.all, "list"] as const,
   details: () => [...memberKeys.all, "detail"] as const,
-  detail: (id: number) => [...memberKeys.details(), id] as const,
+  detail: (id: string) => [...memberKeys.details(), id] as const,
 };
 
 export const useMembers = () => {
@@ -21,7 +21,7 @@ export const useMembers = () => {
   });
 };
 
-export const useMember = (id: number, enabled = true) => {
+export const useMember = (id: string, enabled = true) => {
   return useQuery<Member, Error>({
     queryKey: memberKeys.detail(id),
     enabled: enabled && Boolean(id),

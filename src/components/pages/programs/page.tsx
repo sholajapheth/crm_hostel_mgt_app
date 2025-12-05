@@ -33,21 +33,34 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { usePrograms, useDeleteProgram } from "@/lib/api/programs";
 import type { Program } from "@/lib/api/programs";
 import { toast } from "sonner";
+import { useAuthStore } from "@/lib/stores/authStore";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 
 export default function ProgramsPage() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [showMineOnly, setShowMineOnly] = useState(false);
   const itemsPerPage = 9;
+
+  const user = useAuthStore((state) => state.user);
+  // If user is NOT admin (e.g. partner), they only see their own anyway,
+  // so the toggle is relevant mainly for Admins who want to filter down to their own.
+  // Although partners 'implicitly' have mine=true enforced by backend,
+  // we can show the toggle as 'checked and disabled' or just hide it.
+  // Let's hide it for non-admins as it's implied.
+  const canFilterMine = user?.isAdmin;
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [search]);
+  }, [search, showMineOnly]);
 
   const { data, isFetching, error } = usePrograms({
     name: search || undefined,
     limit: itemsPerPage,
     offset: (currentPage - 1) * itemsPerPage,
+    mine: canFilterMine ? showMineOnly : undefined,
   });
 
   const deleteMutation = useDeleteProgram();
@@ -91,6 +104,16 @@ export default function ProgramsPage() {
           onChange={(e) => setSearch(e.target.value)}
           className="max-w-sm"
         />
+        {canFilterMine && (
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="mine-filter"
+              checked={showMineOnly}
+              onCheckedChange={setShowMineOnly}
+            />
+            <Label htmlFor="mine-filter">Show My Programs Only</Label>
+          </div>
+        )}
       </div>
 
       {error ? (

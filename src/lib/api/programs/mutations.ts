@@ -33,7 +33,7 @@ export const useUpdateProgram = () => {
   return useMutation<
     Program,
     Error,
-    { id: number; data: UpdateProgramRequest }
+    { id: string; data: UpdateProgramRequest }
   >({
     mutationFn: async ({ id, data }) => {
       const response = await httpClient.put<Program>(
@@ -58,7 +58,7 @@ export const useDeleteProgram = () => {
   const queryClient = useQueryClient();
 
   return useMutation<void, Error, number>({
-    mutationFn: async (id: number) => {
+    mutationFn: async (id: string) => {
       await httpClient.delete(`/api/v2/programs/admin/${id}`);
     },
     onSuccess: (_, id) => {
