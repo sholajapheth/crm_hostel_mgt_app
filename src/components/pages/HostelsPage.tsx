@@ -70,13 +70,14 @@ export function HostelsPage() {
 
   const occupiedCount = useMemo(() => {
     return hostels.reduce(
-      (acc, hostel) => acc + (hostel.capacity - hostel.remainingCapacity),
+      (acc, hostel) =>
+        acc + (Number(hostel.capacity) - Number(hostel.remainingCapacity)),
       0
     );
   }, [hostels]);
 
   const totalCapacity = useMemo(() => {
-    return hostels.reduce((acc, hostel) => acc + hostel.capacity, 0);
+    return hostels.reduce((acc, hostel) => acc + Number(hostel.capacity), 0);
   }, [hostels]);
 
   const occupancyRate =

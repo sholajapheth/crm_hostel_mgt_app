@@ -2,16 +2,16 @@ export interface Hostel {
   id: string;
   name: string;
   location: string;
-  capacity: number;
-  remainingCapacity: number;
+  capacity: string;
+  remainingCapacity: string;
   gender: string;
 }
 
 export interface CreateHostelRequest {
   name: string;
   location: string;
-  capacity: number;
-  remainingCapacity: number;
+  capacity: number | string;
+  remainingCapacity: number | string;
   gender: string;
 }
 
