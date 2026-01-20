@@ -179,7 +179,7 @@ export default function ProgramsPage() {
                   <span className="truncate">{program.name}</span>
                   {program.price && (
                     <span className="text-sm font-normal bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded whitespace-nowrap ml-2">
-                      {program.price}
+                      # {program.price}
                     </span>
                   )}
                 </CardTitle>
